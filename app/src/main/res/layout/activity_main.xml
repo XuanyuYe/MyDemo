@@ -25,7 +25,8 @@
             android:id="@+id/next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="next"/>
+            android:text="next"
+            android:visibility="invisible"/>
 
 
     </LinearLayout>

@@ -1,6 +1,5 @@
 package cn.llwy.com.mydemo;
 
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,24 +7,21 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.AccessToken;
 import com.baidu.ocr.sdk.model.GeneralBasicParams;
-import com.baidu.ocr.sdk.model.GeneralParams;
 import com.baidu.ocr.sdk.model.GeneralResult;
-import com.baidu.ocr.sdk.model.Word;
 import com.baidu.ocr.sdk.model.WordSimple;
 
 import java.io.File;
@@ -35,9 +31,10 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     private Button btn;
-    private Button next;
     private TextView txt;
     private Uri imageUri;
+    private Button next;
+
     public static final int TAKE_PHOTO = 1;
     public static final int CROP_PHOTO = 2;
     Bitmap bitmap;
@@ -47,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btn=findViewById(R.id.btn);
-        next=findViewById(R.id.next);
-        //next.setVisibility(View.INVISIBLE);
         txt=findViewById(R.id.txt);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,8 +164,21 @@ public class MainActivity extends AppCompatActivity {
                     sb.append("\n");
                 }
                 txt.setText(sb.toString());
+
+                next=findViewById(R.id.next);
+                next.setVisibility(View.VISIBLE);
                 // json格式返回字符串
 //                listener.onResult(result.getJsonRes());
+                next.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(MainActivity.this,sendemail.class);
+                        TextView Text = findViewById(R.id.txt);
+                        String message = Text.getText().toString();
+                        intent.putExtra("EXTRA_MESSAGE",message);
+                        startActivity(intent);
+                    }
+                });
             }
             @Override
             public void onError(OCRError error) {

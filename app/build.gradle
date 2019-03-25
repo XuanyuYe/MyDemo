@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
 
+repositories {
+    jcenter()
+    maven {
+        url "https://maven.java.net/content/groups/public/"
+    }
+}
+
+
 android {
     compileSdkVersion 27
     buildToolsVersion "28.0.3"
@@ -17,6 +25,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        pickFirst 'META-INF/*' // picks the JavaMail license file
+    }
+
 }
 
 dependencies {
@@ -27,4 +39,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation files('libs/ocr-sdk.jar')
+    implementation files('libs/activation.jar')
+    implementation files('libs/additionnal.jar')
+    implementation files('libs/mail.jar')
+    configurations {    all*.exclude group: 'javax.activation', module: 'activation'}
 }
